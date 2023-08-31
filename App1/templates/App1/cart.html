@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8e5e5;
+            padding-top: 50px;
+        }
+
+        .cart-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        td {
+            vertical-align: middle;
+        }
+
+        .update-form {
+            display: flex;
+            align-items: center;
+        }
+
+        .update-button {
+            margin-left: 10px;
+        }
+
+        .remove-link {
+            color: red;
+        }
+
+        .checkout-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="{% url 'home' %}">Makeup Store</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'product-list' %}">Products</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="{% url 'category-list' %}" id="navbar" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Categories
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    {% for category in categories %}
+                    <li><a class="dropdown-item" href="{% url 'products-by-category' category.id %}">{{ category.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'about' %}">About</a>
+            </li>
+
+        </ul>
+        <form class="d-flex">
+            <a href="{% url 'cart' %}" class="btn btn-outline-light" type="submit">
+                <i class="bi-cart-fill me-1">
+                </i>
+                Cart
+            </a>
+        </form>
+    </div>
+</nav>
+<div class="container">
+    <div class="cart-container">
+        <h1 class="mb-4">Your Cart</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for cart_item in cart_items %}
+            <tr>
+                <td>{{ cart_item.product.name }}</td>
+                <td>
+                    <form method="post" class="update-form" action="{% url 'update-cart' cart_item.id %}">
+                        {% csrf_token %}
+                        <label>
+                            <input type="number" name="quantity" value="{{ cart_item.quantity }}" class="form-control">
+                        </label>
+                        <button type="submit" class="btn btn-sm btn-dark update-button">Add</button>
+                    </form>
+                </td>
+                <td>${{ cart_item.product.price }}</td>
+                <td>
+                    <a href="{% url 'remove-from-cart' cart_item.id %}" class="btn btn-dark">Remove</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="3" class="text-right">Total:</td>
+                <td colspan="2">${{ total_price }}</td>
+            </tr>
+            </tfoot>
+        </table>
+        <a href="{% url 'checkout' %}" class="checkout-link btn btn-dark">Proceed to Checkout</a>
+    </div>
+</div>
+
+</body>
+</html>

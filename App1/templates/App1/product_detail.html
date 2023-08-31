@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8e5e5;
+        }
+
+        .product-details {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        .product-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="{% url 'home' %}">Makeup Store</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'product-list' %}">Products</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'category-list' %}" id="navbar" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Categories
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    {% for category in categories %}
+                    <li><a class="dropdown-item" href="{% url 'products-by-category' category.id %}">{{ category.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'about' %}">About</a>
+            </li>
+
+        </ul>
+        <form class="d-flex">
+            <a href="{% url 'cart' %}" class="btn btn-outline-light" type="submit">
+                <i class="bi-cart-fill me-1">
+                </i>
+                Cart
+            </a>
+        </form>
+    </div>
+</nav>
+<div class="container">
+    <div class="product-details">
+        <div>
+            <h2>Name: {{ product.name }}</h2>
+            <p>Description: {{ product.description }}</p>
+            <p>Price: ${{ product.price }}</p>
+            <p>Category: {{ product.category.name }}</p>
+            {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }} Image" class="product-image">
+            {% endif %}
+            <p>Details: {{ product.details }}</p>
+            <form>
+                <a href="{% url 'product-list' %}" class="btn btn-light mt-3" type="submit">
+                    <i class="bi-cart-fill me-1">
+                    </i>
+                    Back to Product List
+                </a>
+            </form>
+            <form action="{% url 'add-to-cart' product.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-dark mt-3">Add to Cart</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

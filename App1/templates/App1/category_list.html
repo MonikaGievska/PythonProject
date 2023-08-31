@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8e5e5;
+        }
+
+        .category-list {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .category-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f8e5e5;
+            color: #333;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+            text-decoration: none;
+        }
+
+        .category-button:hover {
+            background-color: #f0d2d2;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'home' %}">Makeup Store</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'product-list' %}">Products</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="{% url 'category-list' %}" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Categories
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    {% for category in categories %}
+                    <li><a class="dropdown-item" href="{% url 'products-by-category' category.id %}">{{ category.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'about' %}">About</a>
+            </li>
+
+        </ul>
+        <form class="d-flex">
+            <a href="{% url 'cart' %}" class="btn btn-outline-light" type="submit">
+                <i class="bi-cart-fill me-1">
+                </i>
+                Cart
+            </a>
+        </form>
+    </div>
+</nav>
+<div class="container mg-top-5">
+    <div class="category-list">
+        <h1 class="category-title">Categories</h1>
+        <ul class="list-unstyled">
+            {% for category in categories %}
+            <li><a href="{% url 'products-by-category' category.id %}" class="category-button btn btn-secondary">{{ category.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

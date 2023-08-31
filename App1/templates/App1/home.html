@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>GLOWYY</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .jumbotron {
+            background-image: url('https://th.bing.com/th/id/R.8de32e26ddaa215c2ac4dcd005e37e0e?rik=kBzefJnpTQch7w&pid=ImgRaw&r=0');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            margin-bottom: 0;
+            position: relative;
+        }
+
+        footer {
+            flex-shrink: 0;
+        }
+        .jumbotron::before {
+            content: "";
+            background-color: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .jumbotron h1,
+        .jumbotron p {
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'home' %}">Makeup Store</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'product-list' %}">Products</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'category-list' %}" id="navbar" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Categories
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    {% for category in categories %}
+                    <li><a class="dropdown-item" href="{% url 'products-by-category' category.id %}">{{ category.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'about' %}">About</a>
+            </li>
+
+        </ul>
+        <form class="d-flex">
+            <a href="{% url 'cart' %}" class="btn btn-outline-light" type="submit">
+                <i class="bi-cart-fill me-1">
+                </i>
+                Cart
+            </a>
+        </form>
+    </div>
+</nav>
+<!-- Header-->
+
+<div class="jumbotron py-5 d-flex align-items-center justify-content-center">
+    <div>
+        <h1>Welcome to the Makeup Store</h1>
+        <p>Explore our wide range of makeup products</p>
+    </div>
+</div>
+
+<footer class="py-5 bg-dark d-flex">
+    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
+</footer>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
